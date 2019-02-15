@@ -1,0 +1,50 @@
+﻿@model IEnumerable<YelpBusiness>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-9" style="padding-left:0;padding-right:10px">
+        @if (Model != null)
+        {
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                @await Html.PartialAsync("_Business", Model.ElementAt(i), new ViewDataDictionary(ViewData) { { "index", i } } );
+            }
+        }
+    </div>
+    <div class="col-3" style="padding-left:0;padding-right:0">
+        @await Html.PartialAsync("_Map", Model)
+        ads
+    </div>
+</div>
+@section scripts {
+    <script>
+        if (isEmpty(FingerprintHashCookie.getCookie())) {
+            if (window.requestIdleCallback) {
+                requestIdleCallback(function () {
+                    var options = {};
+                    Fingerprint2.get(options, function (components) {
+                        var values = components.map(function (component) { return component.value })
+                        var hash = Fingerprint2.x64hash128(values.join(''), 31)
+
+                        FingerprintHashCookie.setCookie(hash);
+                        //console.log(hcomponentsash) // an array of components: {key: ..., value: ...}
+                    })
+                })
+            } else {
+                setTimeout(function () {
+                    var options = {};
+                    Fingerprint2.get(options, function (components) {
+                        var values = components.map(function (component) { return component.value })
+                        var hash = Fingerprint2.x64hash128(values.join(''), 31)
+
+                        FingerprintHashCookie.setCookie(hash);
+                        //console.log(components) // an array of components: {key: ..., value: ...}
+                    })
+                }, 500)
+            }
+        }
+    </script>
+    
+}

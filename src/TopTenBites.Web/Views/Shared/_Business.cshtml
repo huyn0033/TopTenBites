@@ -1,0 +1,25 @@
+﻿@model YelpBusiness
+
+<div class="card mx-1 my-2 px-1" style="max-height:400px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-4" id="divBusinessMenuWrapper-@(Model.id)" style="padding-top:4px;padding-right:0">
+                <div class="input-group mb-1" style="padding-right:15px">
+                    <input type="text" class="form-control" id="txtMenuItem" name="txtMenuItem" maxlength="32" placeholder="add menu item"/>
+                    <div class="input-group-append">
+                        <button id="btnAddMenuItem" class="btn btn-success" type="button" onclick="return addMenuItem('@Model.id','@Model.alias')">+</button>
+                    </div>
+                </div>
+                <div id="divBusinessMenu-@(Model.id)" name="divBusinessMenu-@(Model.id)">
+                    @await Html.PartialAsync("_BusinessMenu", Model.menuItems)
+                </div>
+            </div>
+            <div class="col-5" id="divMenuItemInfo-@(Model.id)" name="divMenuItemInfo-@(Model.id)" style="padding:0;max-height:396px">
+                @await  Component.InvokeAsync(nameof(MenuItemInfo), new { menuItemId = Model.menuItems.FirstOrDefault()?.Id, yelpBusinessId = Model.id })
+            </div>
+            <div class="col-3" style="padding-top:4px;">
+                @await Html.PartialAsync("_BusinessInfo", Model, new ViewDataDictionary(ViewData))
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,133 @@
+﻿<nav class="navbar navbar-dark navbar-background-color">
+    <div class="container justify-content-center ">
+        <a class="navbar-brand" href="#"><i class="fas fa-utensils"></i> TopTenFood</a>
+        <form asp-controller="Home" asp-action="Index" class="form-inline" method="get">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text font-weight-bold find-label">Find</span>
+                </div>
+                <input type="text" class="form-control find-input" placeholder="food, restaurant" id="find_desc" name="find_desc" value="@ViewBag.find_desc">
+                <div class="input-group-prepend">
+                    <span class="input-group-text font-weight-bold find-label">Near</span>
+                </div>
+                <input type="text" class="form-control find-input" placeholder="address, neighborhood, city, state or zip" id="find_loc" name="find_loc" value="@ViewBag.find_loc">
+                <input type="hidden" id="lat" name="lat" value="@ViewBag.lat" />
+                <input type="hidden" id="lng" name="lng" value="@ViewBag.lng" />
+            </div>
+            <div class="input-group ml-1">
+                <input type="submit" class="btn btn-success" id="btnSearch" name="btnSearch" value="Search">
+            </div>
+        </form>
+    </div>
+</nav>
+
+<script>
+    $(function () {
+        const CURRENT_LOCATION = "Current Location";
+        const CURRENT_LATITUDE = "Current Latitude";
+        const CURRENT_LONGITUDE = "Current Longitude";
+
+        $("#find_desc").autoComplete({
+            minChars: 0,
+            delay: 150,
+            cache: false,
+            source: function (term, callback) {
+                   
+                var location = $("#find_loc").val();
+                var url = "Home/GetYelpAutocompleteDescription?text=" + term + "&location=" + location;
+                if (location === CURRENT_LOCATION
+                    && $("#lat").val()
+                    && $("#lng").val()) {
+
+                    url = url + "&lat=" + $("#lat").val() + "&lng=" + $("#lng").val();
+                }
+                    
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        let ary = [];
+                        if (data.response) {
+                            for (var i = 0; i < data.response.length; i++) {
+                                if (data.response[i].suggestions) {
+                                    for (var j = 0; j < data.response[i].suggestions.length; j++) {
+                                        let elem = data.response[i].suggestions[j];
+                                        if (elem.title && ary.indexOf(elem.title) === -1) {
+                                            ary.push(elem.title);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        callback(ary);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+
+                        console.log(xhr);
+                    }
+                });
+
+            }
+        });
+
+        $("#find_loc").autoComplete({
+            minChars: 0,
+            delay: 150,
+            source: function (term, callback) {
+                var url = "Home/GetYelpAutocompleteLocation?text=" + term;
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        let ary = [];
+                        if (data.hasOwnProperty("suggestions")) {
+                            let suggestions = data["suggestions"];
+                            for (var i = 0; i < suggestions.length; i++) {
+                                let elem = suggestions[i];
+                                if (elem.title && ary.indexOf(elem.title) === -1) {
+                                    ary.push(elem.title);
+                                }
+                            }
+                            ary.unshift("Current Location");
+                        }
+                        callback(ary);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr);
+                    }
+                });
+            },
+            renderItem: function (item, search) {
+                let s;
+                if (item === "Current Location")
+                    s = '<i class="fas fa-location-arrow"></i> ' + item
+                else
+                    s = item;
+                return '<div class="autocomplete-suggestion" data-val="' + item + '">' + s + '</div>';
+            },
+            onSelect: function (e, term, item) {
+                if (term === CURRENT_LOCATION) {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            $("#lat").val(position.coords.latitude);
+                            $("#lng").val(position.coords.longitude);
+                            //localStorage.setItem(CURRENT_LATITUDE, position.coords.latitude);
+                            //localStorage.setItem(CURRENT_LONGITUDE, position.coords.longitude);
+                        });
+                    }
+                    else {
+                        $("#lat").val("");
+                        $("#lng").val("");
+                        //localStorage.removeItem(CURRENT_LATITUDE);
+                        //localStorage.removeItem(CURRENT_LONGITUDE);
+                    }
+
+                }
+                    
+            }
+        });
+    });
+</script>

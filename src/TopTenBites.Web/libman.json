@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "twitter-bootstrap@4.1.1",
+      "destination": "wwwroot/lib/bootstrap/dist"
+    },
+    {
+      "library": "jquery@3.3.1",
+      "destination": "wwwroot/lib/jquery/dist"
+    },
+    {
+      "library": "jquery-autocomplete@1.0.7",
+      "destination": "wwwroot/lib/jquery-autocomplete/dist"
+    },
+    {
+      "library": "fingerprintjs2@2.0.3",
+      "destination": "wwwroot/lib/fingerprintjs2/dist"
+    },
+    {
+      "library": "lightslider@1.1.6",
+      "destination": "wwwroot/lib/lightslider/dist"
+    },
+    {
+      "library": "jquery-toast-plugin@1.3.2",
+      "destination": "wwwroot/lib/jquery-toast-plugin/dist"
+    },
+    //},
+    //{
+    //  "library": "cropper@4.0.0",
+    //  "destination": "wwwroot/lib/cropper/dist"
+    //},
+    {
+      "library": "dropzone@5.5.1",
+      "destination": "wwwroot/lib/dropzone/dist"
+    },
+    {
+      "library": "lightgallery@1.6.11",
+      "destination": "wwwroot/lib/lightgallery/dist"
+    }
+  ]
+}

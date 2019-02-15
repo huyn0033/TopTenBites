@@ -1,0 +1,102 @@
+﻿@model MenuItemViewModel
+
+<div style="height:100%;padding-top: 4px;overflow:hidden" class="menuItemSelected">
+    @if (Model != null)
+    {
+        <div style="padding-left:15px;padding-right:15px;" class="clearfix">
+            <div class="row">
+                <div class="col-10">
+                    <span id="divMenuItemInfoName" style="font-weight: bold;">@Model.Name</span>
+                </div>
+                <div class="col-2">
+                    <i class="far fa-image fa-2x" title="Upload Image" style="cursor:pointer;" onclick="collapseDivUpload('@Model.Id','@Model.YelpBusinessId','divUpload-@Model.YelpBusinessId','divDropzone-@Model.YelpBusinessId')"></i>
+                </div>
+            </div>
+        </div>
+
+        <div id="divUpload-@Model.YelpBusinessId" class="d-none" style="padding-left:15px;padding-right:15px">
+            <div class="dz dz-clickable dz-started">
+                <div id="divDropzone-@Model.YelpBusinessId" class="dropzone">
+                    <div class="dz-default dz-message"><span>Drop files here or click to upload</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:5px;padding-left:15px;padding-right:15px">
+            <ul id="lightSlider-@Model.YelpBusinessId">
+                @foreach (var image in Model.Images)
+                {
+                    <li data-thumb="@image.FileRelativeUrlThumb" data-src="@image.FileRelativeUrl">
+                        <img height="75" src="@image.FileRelativeUrlThumb" />
+                    </li>
+                }
+                @if (Model.Images.Count < 9)
+                {
+                    @for (var i = Model.Images.Count; i < 9; i++)
+                    {
+                        <li data-thumb="/images/placeholder.png" data-src="/images/placeholder.png">
+                            <img height="75" src="/images/placeholder.png" />
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+
+        <hr style="border-color:#ffffff;width:50%;margin-top:8px;margin-bottom:2px;" />
+        <div class="input-group py-1 pr-2">
+            <div style="display:inline-block;padding:5px">
+                <i id="commentHeart" class="far fa-heart" onclick="toggleCommentSentiment(this)"></i>
+                &nbsp;
+                <i id="commentThumbsDown" class="far fa-thumbs-down" onclick="toggleCommentSentiment(this)"></i>
+            </div>
+            <input type="text" class="form-control" id="txtComment" name="txtComment" maxlength="140" placeholder="add comment" />
+            <div class="input-group-append">
+                <button id="btnSubmitComment" class="btn btn-success" type="button" onclick="return addComment(@Model.Id, '@Model.YelpBusinessId')">+</button>
+            </div>
+        </div>
+        if (Model.Comments.Count > 0)
+        {
+            <div style="max-height:200px;overflow-y:auto">
+                <table class="table table-striped table-borderless table-hover table-sm">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <tr>
+                            <td width="10%">
+                                @{
+                                    if (comment.Sentiment == Sentiment.Positive)
+                                    {
+                                        @:<i class="far fa-heart"></i>
+                                    }
+                                    else if (comment.Sentiment == Sentiment.Negative)
+                                    {
+                                        @:<i class="far fa-thumbs-down"></i>
+                                    }
+                                }
+                            </td>
+                            <td width="60%">@comment.Text</td>
+                            <td width="30%">@comment.CreatedDate.Humanize(false)</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+        <script>
+            $(document).ready(function () {
+                let lightSlider = $('#lightSlider-' + '@Model.YelpBusinessId').lightSlider({
+                    gallery: true,
+                    item: 3,
+                    loop: false,
+                    slideMargin: 0,
+                    thumbItem: 7,
+                    onSliderLoad: function (el) { el.lightGallery(); } 
+                });
+                LightSliderInstances.dictInstances['lightSlider-' + '@Model.YelpBusinessId'] = lightSlider;
+
+                let divDropzone = 'divDropzone-' + '@Model.YelpBusinessId';
+                let instance = $.grep(Dropzone.instances, function (o) { return o.element.id == divDropzone })[0];
+                if (instance != null)
+                    instance.destroy();
+            });
+        </script>
+    }
+</div>

@@ -1,0 +1,142 @@
+﻿body {
+    font-size: 14px;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: #fdf6f6;
+}
+
+.navbar-background-color {
+    background-color: #fe0000;
+}
+.find-label {
+    background-color: #fff;
+    border-right: 0;
+}
+.find-input {
+    border-right: 0;
+    border-left: 0;
+    padding-left: 0;
+    width: 300px !important;
+}
+.form-control:focus, .btn:focus {
+    border-color: rgb(206, 212, 218);
+    box-shadow: none;
+}
+
+.reviewcount {
+    display: inline-block;
+}
+.ratings {
+    background: url('../images/stars.png') no-repeat;
+    background-size: 132px 560px;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+}
+.stars-0 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -240px;
+}
+.stars-1 {
+    width:102px;
+    height: 18px;
+    background-position: 0 -258px;
+}
+.stars-1_5 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -276px;
+}
+.stars-2 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -294px;
+}
+.stars-2_5 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -312px;
+}
+.stars-3 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -330px;
+}
+.stars-3_5 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -348px;
+}
+.stars-4 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -366px;
+}
+.stars-4_5 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -384px;
+}
+.stars-5 {
+    width: 102px;
+    height: 18px;
+    background-position: 0 -402px;
+}
+
+table#tblMenuItems tr{
+    cursor: pointer;
+}
+
+a.likeAction {
+    color: inherit !important;
+}
+a.likeAction:hover {
+    color: #007bff !important;
+}
+i.selectedIcon {
+    color: #007bff !important;
+}
+i.notAllowed {
+    cursor: not-allowed;
+}
+
+.menuItemSelected {
+    background-color: #c6e5eb !important;
+}
+.menuItemSelected > td#tdMenuItemName {
+    font-weight: bold;
+}
+
+#commentHeart:hover, #commentThumbsDown:hover {
+    color: #007bff !important;
+}
+#commentHeart, #commentThumbsDown {
+    cursor: pointer;
+}
+#txtComment {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+    padding: 10px 0 5px 0;
+    min-height: 100px;
+    overflow: auto
+}
+.dropzone .dz-preview {
+    margin: 0 0 0 85px;
+}
+
+#map {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 4px;
+    height: 300px;
+    width: 100%;
+    margin-top: 8px;
+}

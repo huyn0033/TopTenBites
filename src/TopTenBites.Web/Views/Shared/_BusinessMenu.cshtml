@@ -1,0 +1,53 @@
+﻿@model IEnumerable<MenuItemViewModel>
+@if (Model != null && Model.Count() > 0)
+{
+<div dir="rtl" style="height:350px;overflow-y:auto">
+    <div dir="ltr">
+        <table id="tblMenuItems" class="table table-hover table-sm">
+            @for (var i = 0; i < Model.Count(); i++)
+            {
+                <tr data-id="@Model.ElementAt(i).Id" class="@(((ViewBag.MenuItemId == null && i==0) || (ViewBag.MenuItemId == Model.ElementAt(i).Id)) ? "menuItemSelected" : "")" onclick="selectMenuItem(this, '@Model.ElementAt(i).Id', '@Model.ElementAt(i).YelpBusinessId')">
+                    <td style="width:20px">@(i + 1)</td>
+                    <td style="width:70px">
+                        <div style="display:inline-block;margin-right:8px">
+                            <div>
+                                @if (Model.ElementAt(i).CurrentVisitorHasLiked || Model.ElementAt(i).CurrentVisitorHasDisliked)
+                                {
+                                    <i class="fas fa-thumbs-up notAllowed @(Model.ElementAt(i).CurrentVisitorHasLiked ? "selectedIcon" : "")"></i>
+                                }
+                                else
+                                {
+                                    <a class="likeAction" href="javascript:addLike('@LikeAction.Like','@Model.ElementAt(i).Id','@Model.ElementAt(i).YelpBusinessId');"><i class="fas fa-thumbs-up"></i></a>
+                                }
+                            </div>
+                            <div>
+                                @Model.ElementAt(i).LikeCount
+                            </div>
+                        </div>
+                        <div style="display:inline-block">
+                            <div>
+                                @if (Model.ElementAt(i).CurrentVisitorHasDisliked || Model.ElementAt(i).CurrentVisitorHasLiked)
+                                {
+                                    <i class="fas fa-thumbs-down notAllowed @(Model.ElementAt(i).CurrentVisitorHasDisliked ? "selectedIcon" : "")"></i>
+                                }
+                                else
+                                {
+                                    <a class="likeAction" href="javascript:addLike('@LikeAction.Dislike','@Model.ElementAt(i).Id','@Model.ElementAt(i).YelpBusinessId');"><i class="fas fa-thumbs-down"></i></a>
+                                }
+
+                            </div>
+                            <div>
+                                @Model.ElementAt(i).DislikeCount
+                            </div>
+                        </div>
+                    </td>
+                    <td id="tdMenuItemName">
+                        @Model.ElementAt(i).Name
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+}
+

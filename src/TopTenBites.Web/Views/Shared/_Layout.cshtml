@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TopTenFood</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/jquery-autocomplete/dist/jquery.auto-complete.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <link href="~/lib/lightgallery/dist/css/lightgallery.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/lib/lightslider/dist/css/lightslider.css" />
+        <link rel="stylesheet" href="~/lib/jquery-toast-plugin/dist/jquery.toast.css" />
+        <link rel="stylesheet" href="~/lib/dropzone/dist/dropzone.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.1.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <link rel="stylesheet" href="~/lib/lightslider/dist/css/lightslider.min.css" />
+        <link rel="stylesheet" href="~/lib/jquery-toast-plugin/dist/jquery.toast.min.css" />
+        <link rel="stylesheet" href="~/lib/dropzone/dist/min/dropzone.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-autocomplete/dist/jquery.auto-complete.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/fingerprintjs2/dist/fingerprint2.js"></script>
+        <script src="~/lib/lightgallery/dist/js/lightgallery.js"></script>
+        <script src="~/lib/lightslider/dist/js/lightslider.js"></script>
+        <script src="~/lib/dropzone/dist/dropzone.js"></script>
+        <script src="~/lib/jquery-toast-plugin/dist/jquery.toast.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <!--bootstrap.bundle.js includes popper.js-->
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.1.1/bootstrap.bundle.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-ZJlgHXttXFzQcd6QwVtO0p59YCMQNo2nw9enFAUY9ceputt+veTyPD/LOwm3Xifo">
+        </script>
+        <script src="~/lib/fingerprintjs2/dist/fingerprint2.min.js"></script>
+        <script src="~/lib/lightslider/dist/js/lightslider.min.js"></script>
+        <script src="~/lib/dropzone/dist/min/dropzone.min.js"></script>
+        <script src="~/lib/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+</head>
+<body>
+    @await Html.PartialAsync("_SearchBar")
+
+    <div class="container">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @(DateTime.Now.Year) - <i class="fas fa-utensils"></i> TopTenFood</p>
+        </footer>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

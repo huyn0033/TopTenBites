@@ -1,0 +1,8 @@
+﻿@model YelpBusiness
+
+<img class="rounded img-fluid" src="@Model.GetImageUrlListSize()" width="210" alt="@Model.name" /><br />
+<b>@(Convert.ToInt32(ViewData["index"])+1). <a href="@Model.url" target="_blank">@Model.name</a></b><br />
+@Html.Raw(Model.DisplayRating())<br />
+@Html.Raw(Model.DisplayPriceCategories())<br />
+@Model.display_phone<br />
+@Html.Raw(Model.location?.DisplayAddress())<br />
