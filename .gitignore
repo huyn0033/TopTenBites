@@ -264,3 +264,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/src/TopTenBites.Web/Areas/Identity/Data/ApplicationUser.cs
+/src/TopTenBites.Web/ApplicationCore/Models/AppSettingsOptions.cs
+/src/TopTenBites.Web/wwwroot/images/user_small_square.png

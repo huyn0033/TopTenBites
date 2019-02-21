@@ -140,3 +140,12 @@ i.notAllowed {
     width: 100%;
     margin-top: 8px;
 }
+
+ul.loginLinks {
+    margin: 0 20px;
+}
+
+ul.loginLinks li a {
+    color: #fff !important;
+    margin-right: 20px;
+}

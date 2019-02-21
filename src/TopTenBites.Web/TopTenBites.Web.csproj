@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <Folder Include="ApplicationCore\Exceptions\" />
+    <Folder Include="Areas\Identity\Services\" />
     <Folder Include="Common\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
