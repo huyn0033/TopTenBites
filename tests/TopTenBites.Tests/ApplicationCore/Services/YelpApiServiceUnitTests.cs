@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Options;
+using Moq;
 using Moq.Protected;
 using System;
 using System.Net;
@@ -6,6 +7,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using TopTenBites.Web.ApplicationCore.Interfaces;
+using TopTenBites.Web.ApplicationCore.Models;
 using TopTenBites.Web.Core.Services;
 using Xunit;
 
@@ -55,7 +57,7 @@ namespace TopTenBites.Tests.ApplicationCore.Services
             // Arrange
             var expectedUri = new Uri(expected);
 
-            var mockAppSettingsService = new Mock<IAppSettingsService>();
+            var mockAppSettingsOptions = new Mock<IOptions<AppSettingsOptions>>();
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
@@ -79,7 +81,7 @@ namespace TopTenBites.Tests.ApplicationCore.Services
             mockHttpClientFactory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
             // Act
-            var yelpApiService = new YelpApiService(mockHttpClientFactory.Object, mockAppSettingsService.Object);
+            var yelpApiService = new YelpApiService(mockHttpClientFactory.Object, mockAppSettingsOptions.Object);
             var result = await yelpApiService.GetYelpAutocompleteDescriptionAsync(text, location, lat, lng);
 
             // Assert
@@ -102,7 +104,7 @@ namespace TopTenBites.Tests.ApplicationCore.Services
             var text = "text1";
             var expectedUri = new Uri($"https://www.yelp.com/location_suggest/v2?prefix={text}");
 
-            var mockAppSettingsService = new Mock<IAppSettingsService>();
+            var mockAppSettingsOptions = new Mock<IOptions<AppSettingsOptions>>();
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
@@ -126,7 +128,7 @@ namespace TopTenBites.Tests.ApplicationCore.Services
             mockHttpClientFactory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
             // Act
-            var yelpApiService = new YelpApiService(mockHttpClientFactory.Object, mockAppSettingsService.Object);
+            var yelpApiService = new YelpApiService(mockHttpClientFactory.Object, mockAppSettingsOptions.Object);
             var result = await yelpApiService.GetYelpAutocompleteLocationAsync(text);
 
             // Assert
@@ -151,8 +153,10 @@ namespace TopTenBites.Tests.ApplicationCore.Services
         {
             // Arrange
             var expectedUri = new Uri(expected);
+            AppSettingsOptions appSettingsOptions = new AppSettingsOptions() { YelpApiKey = "yelpApiKey" };
 
-            var mockAppSettingsService = new Mock<IAppSettingsService>();
+            var mockAppSettingsOptions = new Mock<IOptions<AppSettingsOptions>>();
+            mockAppSettingsOptions.Setup(x => x.Value).Returns(appSettingsOptions);
             var mockHttpClientFactory = new Mock<IHttpClientFactory>();
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
@@ -176,7 +180,7 @@ namespace TopTenBites.Tests.ApplicationCore.Services
             mockHttpClientFactory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
             // Act
-            var yelpApiService = new YelpApiService(mockHttpClientFactory.Object, mockAppSettingsService.Object);
+            var yelpApiService = new YelpApiService(mockHttpClientFactory.Object, mockAppSettingsOptions.Object);
             var result = await yelpApiService.GetYelpBusinessSearchAsync(text, location, lat, lng);
 
             // Assert

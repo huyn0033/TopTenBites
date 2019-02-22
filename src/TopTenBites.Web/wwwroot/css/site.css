@@ -149,3 +149,7 @@ ul.loginLinks li a {
     color: #fff !important;
     margin-right: 20px;
 }
+
+#logoutForm li.logoutFormLinks {
+    padding-left: 12px;
+}

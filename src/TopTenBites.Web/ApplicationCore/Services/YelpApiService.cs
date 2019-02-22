@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 using TopTenBites.Web.ApplicationCore.Dtos;
 using TopTenBites.Web.ApplicationCore.Models;
 using TopTenBites.Web.ApplicationCore.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace TopTenBites.Web.Core.Services
 {
     public class YelpApiService : IYelpApiService
     {
-        private IAppSettingsService _appSettingsService;
+        private AppSettingsOptions _appSettingsOptions;
         private IHttpClientFactory _httpClientFactory;
 
-        public YelpApiService(IHttpClientFactory httpClientFactory, IAppSettingsService appSettingsService)
+        public YelpApiService(IHttpClientFactory httpClientFactory, IOptions<AppSettingsOptions> appSettingsOptions)
         {
             _httpClientFactory = httpClientFactory;
-            _appSettingsService = appSettingsService;
+            _appSettingsOptions = appSettingsOptions.Value;
         }
 
         public static string GetYelpAutocompleteDescriptionQuery(string text, string location, string lat, string lng)
@@ -87,7 +88,7 @@ namespace TopTenBites.Web.Core.Services
 
         public async Task<YelpApiResultDto> GetYelpBusinessSearchAsync(string text, string location, string lat, string lng)
         {
-            string apiKey = _appSettingsService.YelpApiKey;
+            string apiKey = _appSettingsOptions.YelpApiKey;
                 
             var query = GetYelpBusinessSearchQuery(text, location, lat, lng);
             var url = $"https://api.yelp.com/v3/businesses/search?{query}";

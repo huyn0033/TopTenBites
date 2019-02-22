@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using TopTenBites.Web.ApplicationCore.Interfaces;
+using TopTenBites.Web.ApplicationCore.Models;
 
 namespace TopTenBites.Web.Infrastructure
 {
@@ -14,15 +15,15 @@ namespace TopTenBites.Web.Infrastructure
         private readonly RequestDelegate _next;
         private readonly ILogger<CustomExceptionMiddleware> _logger;
         private readonly IViewRenderService _viewRenderService;
-        private readonly IAppSettingsService _appSettingsService;
+        private readonly AppSettingsOptions _appSettingsOptions;
 
         public CustomExceptionMiddleware(RequestDelegate next, ILogger<CustomExceptionMiddleware> logger, 
-            IViewRenderService viewRenderService, IAppSettingsService appSettingsService)
+            IViewRenderService viewRenderService, IOptions<AppSettingsOptions> appSettingsOptions)
         {
             _next = next;
             _logger = logger;
             _viewRenderService = viewRenderService;
-            _appSettingsService = appSettingsService;
+            _appSettingsOptions = appSettingsOptions.Value;
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -62,7 +63,7 @@ namespace TopTenBites.Web.Infrastructure
                 httpContext.Response.ContentType = "text/html";
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                var html = await _viewRenderService.RenderToStringAsync(_appSettingsService.Error404ViewPath, null);
+                var html = await _viewRenderService.RenderToStringAsync(_appSettingsOptions.Error404ViewPath, null);
                 await httpContext.Response.WriteAsync(html);
             }
             else
@@ -70,7 +71,7 @@ namespace TopTenBites.Web.Infrastructure
                 httpContext.Response.ContentType = "text/html";
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-                var html = await _viewRenderService.RenderToStringAsync(_appSettingsService.Error500ViewPath, null);
+                var html = await _viewRenderService.RenderToStringAsync(_appSettingsOptions.Error500ViewPath, null);
                 await httpContext.Response.WriteAsync(html);
             }
         }

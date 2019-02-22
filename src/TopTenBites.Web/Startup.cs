@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using TopTenBites.Web.ApplicationCore.Interfaces;
+using TopTenBites.Web.ApplicationCore.Models;
 using TopTenBites.Web.ApplicationCore.Services;
 using TopTenBites.Web.Core.Services;
 using TopTenBites.Web.Data;
@@ -42,8 +44,11 @@ namespace TopTenBites.Web
             //});
             
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:TopTenBites:ConnectionString"]));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>(config => {
+                config.SignIn.RequireConfirmedEmail = false;
+            })
+            .AddDefaultTokenProviders()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -78,8 +83,8 @@ namespace TopTenBites.Web
                 options.SlidingExpiration = true;
             });
 
+            services.Configure<AppSettingsOptions>(Configuration.GetSection("AppSettings"));
             services.AddAutoMapper();
-            services.AddSingleton<IAppSettingsService, AppSettingsService>(x => Configuration.GetSection("AppSettings").Get<AppSettingsService>());
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IYelpApiService, YelpApiService>();
@@ -89,6 +94,7 @@ namespace TopTenBites.Web
             services.AddTransient<ILikeService, LikeService>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IImageProcessingService, ImageProcessingService>();
+            services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddHttpClient();
             services.AddMemoryCache();
             services.AddMvc()

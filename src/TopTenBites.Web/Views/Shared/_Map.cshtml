@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<YelpBusiness>
-@inject TopTenBites.Web.ApplicationCore.Interfaces.IAppSettingsService _appSettingsService
+@using TopTenBites.Web.ApplicationCore.Models
+@inject Microsoft.Extensions.Options.IOptions<AppSettingsOptions> _appSettingsOptions
 
 <div id="map" class="@((Model.Count() == 0) ? "d-none":"")"></div>
 <script>
@@ -35,7 +36,7 @@
             placeLocationsOnMap(locations, map);
 
             function placeLocationsOnMap(locations, map) {
-                // Loop through our array of buildings & place each one on the map  
+                // Loop through our array of buildings & place each one on the map
                 let bounds = new google.maps.LatLngBounds();
                 locations.forEach((location, idx) => {
                     let position = new google.maps.LatLng(location.coordinates.latitude, location.coordinates.longitude);//{ lat: location.latitude, lng: location.longitude }
@@ -64,4 +65,4 @@
         }
     }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=@(_appSettingsService.GoogleMapsApiKey)&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=@(_appSettingsOptions.Value.GoogleMapsApiKey)&callback=initMap"></script>

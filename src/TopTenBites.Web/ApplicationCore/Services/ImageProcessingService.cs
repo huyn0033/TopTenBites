@@ -11,6 +11,8 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using TopTenBites.Web.ApplicationCore.Interfaces;
 using TopTenBites.Web.ApplicationCore.Dtos;
+using TopTenBites.Web.ApplicationCore.Models;
+using Microsoft.Extensions.Options;
 
 namespace TopTenBites.Web.ApplicationCore.Services
 {
@@ -18,13 +20,13 @@ namespace TopTenBites.Web.ApplicationCore.Services
     {
         private IBusinessService _businessService;
         private IHostingEnvironment _hostingEnvironment;
-        private IAppSettingsService _appSettingsService;
-        
-        public ImageProcessingService(IBusinessService businessService, IHostingEnvironment hostingEnvironment, IAppSettingsService appSettingsService)
+        private AppSettingsOptions _appSettingsOptions;
+
+        public ImageProcessingService(IBusinessService businessService, IHostingEnvironment hostingEnvironment, IOptions<AppSettingsOptions> appSettingsOptions)
         {
             _businessService = businessService;
             _hostingEnvironment = hostingEnvironment;
-            _appSettingsService = appSettingsService;
+            _appSettingsOptions = appSettingsOptions.Value;
         }
 
         public async Task<ImageUploadResultDto> UploadImage(IFormFile file, int menuItemId, string yelpBusinessId)
@@ -101,12 +103,12 @@ namespace TopTenBites.Web.ApplicationCore.Services
 
         public string GetFileUploadVirtualDir(int businessId)
         {
-            return _appSettingsService.UploadsVirtualDirectory + "/" + businessId.ToString();
+            return _appSettingsOptions.UploadsVirtualDirectory + "/" + businessId.ToString();
         }
 
         public string GetFileUploadPath(int businessId)
         {
-            return _appSettingsService.UploadsPath + "\\" + businessId.ToString();
+            return _appSettingsOptions.UploadsPath + "\\" + businessId.ToString();
         }
 
         private async Task<string> GetFilenameWithoutExtHashFromFileAsync(IFormFile file)
