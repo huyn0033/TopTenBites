@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
 using TopTenBites.Web.ApplicationCore.Models;
+using TopTenBites.Web.Areas.Identity.Data;
 using TopTenBites.Web.Data.Configurations;
 
 namespace TopTenBites.Web.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 

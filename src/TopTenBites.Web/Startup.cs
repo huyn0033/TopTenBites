@@ -14,6 +14,7 @@ using System;
 using TopTenBites.Web.ApplicationCore.Interfaces;
 using TopTenBites.Web.ApplicationCore.Models;
 using TopTenBites.Web.ApplicationCore.Services;
+using TopTenBites.Web.Areas.Identity.Data;
 using TopTenBites.Web.Core.Services;
 using TopTenBites.Web.Data;
 using TopTenBites.Web.Data.Repositories;
@@ -44,7 +45,7 @@ namespace TopTenBites.Web
             //});
             
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:TopTenBites:ConnectionString"]));
-            services.AddIdentity<IdentityUser, IdentityRole>(config => {
+            services.AddIdentity<ApplicationUser, IdentityRole>(config => {
                 config.SignIn.RequireConfirmedEmail = false;
             })
             .AddDefaultTokenProviders()

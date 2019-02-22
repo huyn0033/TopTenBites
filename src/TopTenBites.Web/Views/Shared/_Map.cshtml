@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<YelpBusiness>
-@using TopTenBites.Web.ApplicationCore.Models
 @inject Microsoft.Extensions.Options.IOptions<AppSettingsOptions> _appSettingsOptions
 
 <div id="map" class="@((Model.Count() == 0) ? "d-none":"")"></div>

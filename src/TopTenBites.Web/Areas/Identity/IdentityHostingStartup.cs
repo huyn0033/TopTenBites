@@ -18,7 +18,7 @@ namespace TopTenBites.Web.Areas.Identity
             //    services.AddDbContext<ApplicationDBContext>(options =>
             //        options.UseSqlServer(context.Configuration["Data:TopTenBites:ConnectionString"]));
 
-            //    services.AddDefaultIdentity<IdentityUser>()
+            //    services.AddDefaultIdentity<ApplicationUser>()
             //        .AddEntityFrameworkStores<ApplicationDBContext>();
             //});
         }
